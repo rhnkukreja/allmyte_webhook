@@ -47,12 +47,12 @@ app=FastAPI()
 async def ingest_record(record_id: RecordID):
     try:
         # Fetch data from Airtable
-        data_from_airtable = get_airtable_record(record_id.record_id)
+        data_from_airtable = await get_airtable_record(record_id.record_id)
         if not data_from_airtable:
             raise HTTPException(status_code=404, detail="Record not found in Airtable")
         
         # Ingest data into MongoDB
-        ingest_data_into_mongo(data_from_airtable['fields'])
+        await ingest_data_into_mongo(data_from_airtable['fields'])
         
         return {"message": "Record ingested successfully"}
     except Exception as e:
