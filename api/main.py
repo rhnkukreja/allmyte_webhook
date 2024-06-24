@@ -26,28 +26,18 @@ def get_airtable_record(record_id):
     return record
 
 
-def ingest_data_into_mongo(data_json):
-    client = MongoClient(MONGO_URI)
-    db = client[DATABASE_NAME]
-    collection = db[COLLECTION_NAME]
+async def ingest_data_into_mongo(data_json):
     try:
-        collection.insert_one(data_json)
-        print(f"Data inserted into MongoDB")
+        await collection.insert_one(data_json)
+        print(f"Record inserted into MongoDB")
     except Exception as e:
         print(f"An error occurred: {e}")
-
-# record_id="reclXIWhlYO8dV6Ah"
-# data_from_airtbale=get_airtable_record(record_id)
-# ingest_data_into_mongo(data_from_airtbale)
-
-app=FastAPI()
-
 
 @app.post("/ingest")
 async def ingest_record(record_id: RecordID):
     try:
         # Fetch data from Airtable
-        data_from_airtable = await get_airtable_record(record_id.record_id)
+        data_from_airtable = get_airtable_record(record_id.record_id)
         if not data_from_airtable:
             raise HTTPException(status_code=404, detail="Record not found in Airtable")
         
