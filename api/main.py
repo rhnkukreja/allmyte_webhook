@@ -36,15 +36,15 @@ async def ingest_data_into_mongo(data_json):
 @app.post("/ingest")
 async def ingest_record(record_id: RecordID):
     try:
-        # Fetch data from Airtable
-        data_from_airtable = get_airtable_record(record_id.record_id)
-        if not data_from_airtable:
-            raise HTTPException(status_code=404, detail="Record not found in Airtable")
+        # # Fetch data from Airtable
+        # data_from_airtable = get_airtable_record(record_id.record_id)
+        # if not data_from_airtable:
+        #     raise HTTPException(status_code=404, detail="Record not found in Airtable")
         
-        # Ingest data into MongoDB
-        await ingest_data_into_mongo(data_from_airtable['fields'])
+        # # Ingest data into MongoDB
+        # await ingest_data_into_mongo(data_from_airtable['fields'])
         
-        return {"message": "Record ingested successfully"}
+        return {"message": f"Record {RecordID} ingested successfully"}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
