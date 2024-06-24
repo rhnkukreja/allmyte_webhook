@@ -33,7 +33,13 @@ async def ingest_data_into_mongo(data_json):
     except Exception as e:
         print(f"An error occurred: {e}")
 
+
 @app.post("/ingest")
+async def ingest_record():
+    return {"message": "Record ingested successfully"}
+
+
+@app.post("/ingest_old")
 async def ingest_record(record_id: RecordID):
     try:
         # # Fetch data from Airtable
